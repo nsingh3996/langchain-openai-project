@@ -1,0 +1,22 @@
+{
+  "name": "langchain-openai-project",
+  "version": "1.0.0",
+  "description": "A project utilizing Langchain with OpenAI for natural language processing tasks.",
+  "main": "src/llm.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/conversation-retrieval-chain.js",
+    "test": "echo \"No tests specified\" && exit 0"
+  },
+  "dependencies": {
+    "@langchain/community": "^0.3.37",
+    "@langchain/core": "^0.3.43",
+    "@langchain/openai": "^0.5.1",
+    "cheerio": "^1.0.0",
+    "dotenv": "^16.4.5",
+    "langchain": "^0.3.19",
+    "zod": "^3.24.2"
+  },
+  "author": "",
+  "license": "ISC"
+}
