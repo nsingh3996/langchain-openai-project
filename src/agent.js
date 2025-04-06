@@ -1,9 +1,10 @@
-import * as dotenv from "dotenv";
-dotenv.config();
+// import * as dotenv from "dotenv";
+// dotenv.config();
 
 import readline from "readline";
 
-import { ChatOpenAI } from "@langchain/openai";
+// import { ChatOpenAI } from "@langchain/openai";
+import { Ollama } from "@langchain/ollama";
 import {
   ChatPromptTemplate,
   MessagesPlaceholder,
@@ -21,7 +22,8 @@ import { createRetrieverTool } from "langchain/tools/retriever";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
 import { CheerioWebBaseLoader } from "@langchain/community/document_loaders/web/cheerio";
 import { MemoryVectorStore } from "langchain/vectorstores/memory";
-import { OpenAIEmbeddings } from "@langchain/openai";
+// import { OpenAIEmbeddings } from "@langchain/openai";
+import { OllamaEmbeddings } from "@langchain/ollama";
 
 // Create Retriever
 const loader = new CheerioWebBaseLoader(
@@ -36,7 +38,12 @@ const splitter = new RecursiveCharacterTextSplitter({
 
 const splitDocs = await splitter.splitDocuments(docs);
 
-const embeddings = new OpenAIEmbeddings();
+// const embeddings = new OpenAIEmbeddings();
+
+const embeddings = new OllamaEmbeddings({
+  model: "mxbai-embed-large", // Default value
+  baseUrl: "http://localhost:11434", // Default value
+});
 
 const vectorStore = await MemoryVectorStore.fromDocuments(
   splitDocs,
@@ -48,9 +55,10 @@ const retriever = vectorStore.asRetriever({
 });
 
 // Instantiate the model
-const model = new ChatOpenAI({
-  modelName: "gpt-3.5-turbo-1106",
-  temperature: 0.2,
+const model = new Ollama({
+    model: "deepseek-r1:7b",
+    temperature: 0.5,
+    baseUrl: "http://localhost:11434",
 });
 
 // Prompt Template
